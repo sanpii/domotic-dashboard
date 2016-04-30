@@ -3,3 +3,12 @@
     <i ng-class="{connected: connected, disconnected: !connected}" class="fa fa-wifi"></i>
 </h1>
 <hr />
+
+<div>
+    <h2>Météo</h2>
+
+    <div>Temperature intérieure : {{ weather.temperature_indoor }}°C</div>
+    <div>Temperature extérieure : {{ weather.temperature_outdoor }}°C</div>
+    <div>Humidité intérieure : {{ weather.humidity_indoor }} %</div>
+    <div>Humidité extérieure : {{ weather.humidity_outdoor }} %</div>
+</div>
