@@ -1,0 +1,12 @@
+{
+    "name": "dashboard",
+    "dependencies": {
+        "angular": "~1.5",
+        "angular-route": "~1.5",
+        "angular-resource": "~1.5",
+        "angular-post-fix": "~0.1",
+        "mqtt": "https://github.com/eclipse/paho.mqtt.javascript.git",
+        "fontawesome": "~4.6",
+        "bootstrap": "~4.0.0-alpha.2"
+    }
+}
