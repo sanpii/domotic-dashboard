@@ -1,0 +1,5 @@
+'use strict';
+
+angular.module('config', [])
+    .constant('MQTT_HOST', '127.0.0.1')
+    .constant('MQTT_PORT', 9001);
