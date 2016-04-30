@@ -5,6 +5,17 @@
 <hr />
 
 <div>
+    <h2>VMC</h2>
+
+    <div class="btn-toolbar" role="toolbar">
+        <div ng-repeat="state in ['off', 'pulse1', 'pulse2']" class="btn-group" role="group">
+            <button ng-click="vmc.update(state)" class="btn btn-primary" type="button">{{ state }}</button>
+        </div>
+    </div>
+    <progress ng-class="{'progress-danger': vmc.forced}" class="progress" value="{{ vmc.speed }}" max="2">{{ vmc.speed }}</progress>
+</div>
+
+<div>
     <h2>Météo</h2>
 
     <div>Temperature intérieure : {{ weather.temperature_indoor }}°C</div>
