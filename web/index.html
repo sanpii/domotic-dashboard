@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app="dashboard" ng-csp>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+
+        <title>Dashboard</title>
+        <link rel="shortcut icon" href="favicon.ico" />
+        <link href="lib/angular/angular-csp.css" rel="stylesheet" />
+        <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="lib/fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+        <link href="css/main.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div ng-view></div>
+
+        <script src="lib/angular/angular.min.js"></script>
+        <script src="lib/angular-route/angular-route.min.js"></script>
+        <script src="lib/angular-resource/angular-resource.min.js"></script>
+        <script src="lib/mqtt/src/mqttws31.js"></script>
+
+        <script src="js/services.js"></script>
+        <script src="js/controllers.js"></script>
+        <script src="js/app.js"></script>
+    </body>
+</html>
