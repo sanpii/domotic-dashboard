@@ -1,7 +1,58 @@
-.connected {
-    color: green;
+@green: #1bc98e;
+@white: #cfd2da;
+@dark-gray: #252830;
+@light-gray: #434857;
+@blue: #1997c6;
+@red: #e64759;
+
+body {
+    color: @white;
+    background-color: @dark-gray;
 }
 
-.disconnected {
-    color: red;
+.container {
+    max-width: 1024px;
+}
+
+.header {
+    margin-bottom: 10px;
+
+    .btn {
+        border-top: none;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        background-color: transparent;
+        border-color: @light-gray;
+
+        .connected {
+            color: @green;
+        }
+
+        .disconnected {
+            color: @red;
+        }
+    }
+}
+
+h2 {
+    clear: both;
+    border-bottom: .05rem solid @light-gray;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.card-block {
+    border-color: @light-gray;
+    background-color: transparent;
+}
+
+.btn {
+    color: @white;
+    background-color: @light-gray;
+}
+
+.btn-primary {
+    color: @blue;
+    border-color: @blue;
+    background-color: transparent;
 }

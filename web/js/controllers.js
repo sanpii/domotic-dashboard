@@ -53,5 +53,10 @@ function IndexController($scope, MQTT_HOST, MQTT_PORT)
 
         mqtt.send(message);
     };
+
+    $scope.scroll= function (anchor) {
+        $location.hash(anchor);
+        $anchorScroll();
+    };
 }
 IndexController.$inject = ['$scope', 'MQTT_HOST', 'MQTT_PORT'];

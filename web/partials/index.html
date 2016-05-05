@@ -1,25 +1,38 @@
-<h1>
-    Tableau de bord
-    <i ng-class="{connected: connected, disconnected: !connected}" class="fa fa-wifi"></i>
-</h1>
-<hr />
-
-<div>
-    <h2>VMC</h2>
-
-    <div class="btn-toolbar" role="toolbar">
-        <div ng-repeat="state in ['off', 'pulse1', 'pulse2']" class="btn-group" role="group">
-            <button ng-click="vmc.update(state)" class="btn btn-primary" type="button">{{ state }}</button>
-        </div>
+<div class="header clearfix">
+    <div class="btn-group center-block">
+        <a class="btn btn-secondary">
+            <i ng-class="{connected: connected, disconnected: !connected}" class="fa fa-wifi"></i>
+        </a>
+        <a ng-click="scroll('vmc')" class="btn btn-secondary">VMC</a>
+        <a ng-click="scroll('weather')" class="btn btn-secondary">Météo</a>
     </div>
-    <progress ng-class="{'progress-danger': vmc.forced}" class="progress" value="{{ vmc.speed }}" max="2">{{ vmc.speed }}</progress>
 </div>
 
-<div>
-    <h2>Météo</h2>
+<h2 name="vmc"><i class="fa fa-feed"></i> VMC</h2>
 
-    <div>Temperature intérieure : {{ weather.temperature_indoor }}°C</div>
-    <div>Temperature extérieure : {{ weather.temperature_outdoor }}°C</div>
-    <div>Humidité intérieure : {{ weather.humidity_indoor }} %</div>
-    <div>Humidité extérieure : {{ weather.humidity_outdoor }} %</div>
+<div class="col-sm-6">
+    <div class="card card-block">
+        <div class="btn-toolbar" role="toolbar">
+            <div ng-repeat="state in ['off', 'pulse1', 'pulse2']" class="btn-group" role="group">
+                <button ng-click="vmc.update(state)" class="btn btn-primary" type="button">{{ state }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-6">
+    <div class="card card-block">
+        <progress ng-class="{'progress-danger': vmc.forced}" class="progress" value="{{ vmc.speed }}" max="2">{{ vmc.speed }}</progress>
+    </div>
+</div>
+
+<h2 name="weather"><i class="fa fa-sun-o"></i> Météo</h2>
+
+<div class="col-sm-6">
+    <div class="card card-block">
+        <div>Temperature intérieure : {{ weather.temperature_indoor }}°C</div>
+        <div>Temperature extérieure : {{ weather.temperature_outdoor }}°C</div>
+        <div>Humidité intérieure : {{ weather.humidity_indoor }} %</div>
+        <div>Humidité extérieure : {{ weather.humidity_outdoor }} %</div>
+    </div>
 </div>
