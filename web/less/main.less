@@ -1,9 +1,9 @@
+@red: #e64759;
 @green: #1bc98e;
+@blue: #1997c6;
 @white: #cfd2da;
 @dark-gray: #252830;
 @light-gray: #434857;
-@blue: #1997c6;
-@red: #e64759;
 
 body {
     color: @white;
@@ -55,4 +55,25 @@ h2 {
     color: @blue;
     border-color: @blue;
     background-color: transparent;
+}
+
+svg#vmc {
+    stroke: @blue;
+    fill: url(#degrade);
+
+    stop {
+        stop-opacity: 1;
+
+        &.first {
+            stop-color: @blue;
+        }
+
+        &.second {
+            stop-color: @light-gray;
+        }
+    }
+
+    &.forced {
+        fill: @red;
+    }
 }
