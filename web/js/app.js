@@ -9,4 +9,13 @@ app.config(['$routeProvider', function($routeProvider) {
     });
 }]);
 
+app.component('graph', {
+    templateUrl: '/partials/components/graph.html',
+    bindings: {
+        min: '<',
+        max: '<',
+        current: '<'
+    }
+});
+
 app.run();
