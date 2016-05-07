@@ -1,9 +1,7 @@
 'use strict';
 
-function IndexController($scope, MQTT_HOST, MQTT_PORT)
+function IndexController($scope, mqtt)
 {
-    var mqtt = new Paho.MQTT.Client(MQTT_HOST, MQTT_PORT, 'dashboard');
-
     $scope.vmc = {};
     $scope.weather = {};
     $scope.connected = false;
@@ -65,4 +63,4 @@ function IndexController($scope, MQTT_HOST, MQTT_PORT)
         $anchorScroll();
     };
 }
-IndexController.$inject = ['$scope', 'MQTT_HOST', 'MQTT_PORT'];
+IndexController.$inject = ['$scope', 'mqtt'];
