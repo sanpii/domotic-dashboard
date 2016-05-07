@@ -2,4 +2,8 @@
 
 angular.module('config', [])
     .constant('MQTT_HOST', '127.0.0.1')
-    .constant('MQTT_PORT', 9001);
+    .constant('MQTT_PORT', 9001)
+    .constant('PG_URL', 'https://pg.example.com')
+    .constant('PG_DB', 'domotic')
+    .constant('PG_USER', 'postgres')
+    .constant('PG_PASSWORD', '');

@@ -1,9 +1,13 @@
 'use strict';
 
-function IndexController($scope, mqtt)
+function IndexController($scope, mqtt, pg)
 {
-    $scope.vmc = {};
-    $scope.weather = {};
+    $scope.vmc = pg.query({
+        'q': 'SELECT * FROM vmc ORDER BY created DESC LIMIT 1',
+    });
+    $scope.weather = pg.query({
+        'q': 'SELECT * FROM weather ORDER BY created DESC LIMIT 1',
+    });
     $scope.connected = false;
 
     mqtt.connect({
@@ -34,16 +38,9 @@ function IndexController($scope, mqtt)
 
         switch (message.destinationName) {
             case 'domotic/vmc':
-                $scope.vmc.speed = data.speed;
-                $scope.vmc.forced = data.forced;
+                $scope.vmc = data;
             break;
             case 'domotic/weather':
-                if (data.forecast === 'Rainy') {
-                    data.forecast = 'Rain';
-                }
-
-                data.forecast = data.forecast.toLowerCase();
-
                 $scope.weather = data;
             break;
         }
@@ -51,7 +48,7 @@ function IndexController($scope, mqtt)
         $scope.$apply();
     };
 
-    $scope.vmc.update = function (state) {
+    $scope.vmc_update = function (state) {
         var message = new Paho.MQTT.Message(state);
         message.destinationName = 'domotic/vmc/state';
 
@@ -63,4 +60,4 @@ function IndexController($scope, mqtt)
         $anchorScroll();
     };
 }
-IndexController.$inject = ['$scope', 'mqtt'];
+IndexController.$inject = ['$scope', 'mqtt', 'pg'];
