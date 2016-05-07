@@ -30,9 +30,28 @@
 
 <div class="col-sm-6">
     <div class="card card-block">
-        <div>Temperature intérieure : {{ weather.temperature_indoor }}°C</div>
-        <div>Temperature extérieure : {{ weather.temperature_outdoor }}°C</div>
-        <div>Humidité intérieure : {{ weather.humidity_indoor }} %</div>
-        <div>Humidité extérieure : {{ weather.humidity_outdoor }} %</div>
+        <div class="col-xs-6">
+            {{ weather.temperature_indoor }}°C
+            <i class="wi wi-thermometer"></i>
+            {{ weather.temperature_outdoor }}°C
+        </div>
+        <div class="col-xs-6">
+            {{ weather.humidity_indoor }} %
+            <i class="wi wi-humidity"></i>
+            {{ weather.humidity_outdoor }} %
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-6">
+    <div class="card card-block">
+        <div class="col-xs-6">
+            <i class="wi wi-day-{{ weather.forecast }}"></i>
+        </div>
+        <div class="col-xs-6">
+            <i ng-if="weather.tendency == 'Rising'" class="wi wi-direction-up-right"></i>
+            <i ng-if="weather.tendency == 'Steady'" class="wi">=</i>
+            <i ng-if="weather.tendency == 'Falling'" class="wi wi-direction-down-right"></i>
+        </div>
     </div>
 </div>

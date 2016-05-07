@@ -40,6 +40,12 @@ function IndexController($scope, MQTT_HOST, MQTT_PORT)
                 $scope.vmc.forced = data.forced;
             break;
             case 'domotic/weather':
+                if (data.forecast === 'Rainy') {
+                    data.forecast = 'Rain';
+                }
+
+                data.forecast = data.forecast.toLowerCase();
+
                 $scope.weather = data;
             break;
         }
