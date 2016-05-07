@@ -24,11 +24,11 @@ body {
         background-color: transparent;
         border-color: @light-gray;
 
-        .connected {
+        .wi-cloud-up {
             color: @green;
         }
 
-        .disconnected {
+        .wi-cloud-down {
             color: @red;
         }
     }
@@ -44,6 +44,17 @@ h2 {
 .card-block {
     border-color: @light-gray;
     background-color: transparent;
+
+    .wi {
+        color: @blue;
+        font-size: 4rem;
+    }
+
+    @media (min-width: 1024px) {
+        .wi {
+            font-size: 6rem;
+        }
+    }
 }
 
 .btn {

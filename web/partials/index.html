@@ -1,14 +1,14 @@
 <div class="header clearfix">
     <div class="btn-group center-block">
         <a class="btn btn-secondary">
-            <i ng-class="{connected: connected, disconnected: !connected}" class="fa fa-wifi"></i>
+            <i ng-class="{'wi-cloud-up': connected, 'wi-cloud-down': !connected}" class="wi"></i>
         </a>
         <a ng-click="scroll('vmc')" class="btn btn-secondary">VMC</a>
         <a ng-click="scroll('weather')" class="btn btn-secondary">Météo</a>
     </div>
 </div>
 
-<h2 name="vmc"><i class="fa fa-feed"></i> VMC</h2>
+<h2 name="vmc"><i class="wi wi-strong-wind"></i> VMC</h2>
 
 <div class="col-sm-6">
     <div class="card card-block">
@@ -26,7 +26,7 @@
     </div>
 </div>
 
-<h2 name="weather"><i class="fa fa-sun-o"></i> Météo</h2>
+<h2 name="weather"><i class="wi wi-umbrella"></i> Météo</h2>
 
 <div class="col-sm-6">
     <div class="card card-block">

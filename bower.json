@@ -6,7 +6,7 @@
         "angular-resource": "~1.5",
         "angular-post-fix": "~0.1",
         "mqtt": "https://github.com/eclipse/paho.mqtt.javascript.git",
-        "fontawesome": "~4.6",
+        "weather-icons": "~2.0.10",
         "less.js": "~2.5",
         "bootstrap": "~4.0.0-alpha.2"
     }
