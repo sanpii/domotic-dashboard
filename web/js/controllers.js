@@ -2,6 +2,14 @@
 
 function IndexController($scope, mqtt, pg)
 {
+    $scope.$watch('weather', function (newValue, oldValue) {
+        if (typeof newValue.wind_all !== 'undefined') {
+            $scope.beaufort = Math.cbrt(
+                Math.pow(newValue.wind_all, 2) / 9
+            );
+        }
+    });
+
     $scope.vmc = pg.query({
         'q': 'SELECT * FROM vmc ORDER BY created DESC LIMIT 1',
     });
