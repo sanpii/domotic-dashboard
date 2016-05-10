@@ -1,7 +1,7 @@
-<div class="header clearfix">
+<div class="header clearfix" ng-controller="header">
     <div class="btn-group center-block">
         <a class="btn btn-secondary">
-            <i ng-class="{'wi-cloud-up': connected, 'wi-cloud-down': !connected}" class="wi"></i>
+            <i ng-click="connect()" ng-class="{'wi-cloud-up': connected, 'wi-cloud-down': !connected}" class="wi"></i>
         </a>
         <a ng-click="scroll('vmc')" class="btn btn-secondary">VMC</a>
         <a ng-click="scroll('weather')" class="btn btn-secondary">Météo</a>
@@ -9,72 +9,78 @@
     </div>
 </div>
 
-<h2 name="vmc"><i class="wi wi-strong-wind"></i> VMC</h2>
+<div ng-controller="vmc">
+    <h2 name="vmc"><i class="wi wi-strong-wind"></i> VMC</h2>
 
-<div class="col-sm-6">
-    <div class="card card-block">
-        <div class="btn-toolbar" role="toolbar">
-            <div ng-repeat="state in ['off', 'pulse1', 'pulse2']" class="btn-group" role="group">
-                <button ng-click="vmc_update(state)" class="btn btn-primary" type="button">{{ state }}</button>
+    <div class="col-sm-6">
+        <div class="card card-block">
+            <div class="btn-toolbar" role="toolbar">
+                <div ng-repeat="state in ['off', 'pulse1', 'pulse2']" class="btn-group" role="group">
+                    <button ng-click="vmc_update(state)" class="btn btn-primary" type="button">{{ state }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="card card-block">
+            <graph id="vmc" min="0" max="2" current="vmc.speed" ng-class="{'forced': vmc.forced}"></graph>
+        </div>
+    </div>
+</div>
+
+<div ng-controller="weather">
+    <h2 name="weather"><i class="wi wi-umbrella"></i> Météo</h2>
+
+    <div class="col-sm-6">
+        <div class="card card-block">
+            <div class="col-xs-6">
+                {{ weather.temperature_indoor }}°C
+                <i class="wi wi-thermometer"></i>
+                {{ weather.temperature_outdoor }}°C
+            </div>
+            <div class="col-xs-6">
+                {{ weather.humidity_indoor }} %
+                <i class="wi wi-humidity"></i>
+                {{ weather.humidity_outdoor }} %
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="card card-block">
+            <div class="col-xs-6">
+                <i ng-if="weather.forecast == 'Rainy'" class="wi wi-day-rain"></i>
+                <i ng-if="weather.forecast == 'Sunny'" class="wi wi-day-sunny"></i>
+                <i ng-if="weather.forecast == 'Cloudy'" class="wi wi-day-cloudy"></i>
+            </div>
+            <div class="col-xs-6">
+                <i ng-if="weather.tendency == 'Rising'" class="wi wi-direction-up-right"></i>
+                <i ng-if="weather.tendency == 'Steady'" class="wi">=</i>
+                <i ng-if="weather.tendency == 'Falling'" class="wi wi-direction-down-right"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="card card-block">
+            <div class="col-xs-6">
+                <i class="wi wi-wind wi-towards-{{ weather.directions.toLowerCase() }}"></i>
+            </div>
+            <div class="col-xs-6">
+                <i class="wi wi-wind-beaufort-{{ beaufort }}"></i>
             </div>
         </div>
     </div>
 </div>
 
-<div class="col-sm-6">
-    <div class="card card-block">
-        <graph id="vmc" min="0" max="2" current="vmc.speed" ng-class="{'forced': vmc.forced}"></graph>
-    </div>
-</div>
+<div ng-controller="network">
+    <h2 name="network"><i class="wi wi-cloudy"></i> Réseau</h2>
 
-<h2 name="weather"><i class="wi wi-umbrella"></i> Météo</h2>
-
-<div class="col-sm-6">
-    <div class="card card-block">
-        <div class="col-xs-6">
-            {{ weather.temperature_indoor }}°C
-            <i class="wi wi-thermometer"></i>
-            {{ weather.temperature_outdoor }}°C
+    <div class="col-sm-6">
+        <div class="card card-block">
+            <span class="wi">{{ network.nb_devices ? network.nb_devices : 0 }}</span> périphérique<span ng-if="network.nb_devices >= 2">s</span>
+            <span ng-class="{'text-danger': network.nb_unknow_devices > 0 }" class="wi">{{ network.nb_unknow_devices ? network.nb_unknow_devices : 0 }}</span> inconnu<span ng-if="network.nb_unknow_devices >= 2">s</span>
         </div>
-        <div class="col-xs-6">
-            {{ weather.humidity_indoor }} %
-            <i class="wi wi-humidity"></i>
-            {{ weather.humidity_outdoor }} %
-        </div>
-    </div>
-</div>
-
-<div class="col-sm-6">
-    <div class="card card-block">
-        <div class="col-xs-6">
-            <i ng-if="weather.forecast == 'Rainy'" class="wi wi-day-rain"></i>
-            <i ng-if="weather.forecast == 'Sunny'" class="wi wi-day-sunny"></i>
-            <i ng-if="weather.forecast == 'Cloudy'" class="wi wi-day-cloudy"></i>
-        </div>
-        <div class="col-xs-6">
-            <i ng-if="weather.tendency == 'Rising'" class="wi wi-direction-up-right"></i>
-            <i ng-if="weather.tendency == 'Steady'" class="wi">=</i>
-            <i ng-if="weather.tendency == 'Falling'" class="wi wi-direction-down-right"></i>
-        </div>
-    </div>
-</div>
-
-<div class="col-sm-6">
-    <div class="card card-block">
-        <div class="col-xs-6">
-            <i class="wi wi-wind wi-towards-{{ weather.directions.toLowerCase() }}"></i>
-        </div>
-        <div class="col-xs-6">
-            <i class="wi wi-wind-beaufort-{{ beaufort }}"></i>
-        </div>
-    </div>
-</div>
-
-<h2 name="network"><i class="wi wi-cloudy"></i> Réseau</h2>
-
-<div class="col-sm-6">
-    <div class="card card-block">
-        <span class="wi">{{ network.nb_devices ? network.nb_devices : 0 }}</span> périphérique<span ng-if="network.nb_devices >= 2">s</span>
-        <span ng-class="{'text-danger': network.nb_unknow_devices > 0 }" class="wi">{{ network.nb_unknow_devices ? network.nb_unknow_devices : 0 }}</span> inconnu<span ng-if="network.nb_unknow_devices >= 2">s</span>
     </div>
 </div>

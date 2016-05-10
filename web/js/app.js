@@ -2,10 +2,16 @@
 
 var app = angular.module('dashboard', ['ngRoute', 'config', 'dashboardServices']);
 
+app.controller('index', IndexController)
+    .controller('header', HeaderController)
+    .controller('vmc', VmcController)
+    .controller('weather', WeatherController)
+    .controller('network', NetworkController);
+
 app.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/', {
         templateUrl: '/partials/index.html',
-        controller: IndexController
+        controller: 'index',
     });
 }]);
 

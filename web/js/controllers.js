@@ -1,61 +1,7 @@
 'use strict';
 
-function getNetworkInfo(pg)
-{
-    var sql = " \
-WITH last_minute AS ( \
-    SELECT date_trunc('minute', created) \
-        FROM connected_device \
-        ORDER BY 1 DESC \
-        LIMIT 1 \
-), \
-summary AS ( \
-    SELECT name, COUNT(1) \
-        FROM connected_device \
-        LEFT JOIN device USING(mac) \
-        WHERE created >= (SELECT * FROM last_minute) \
-        GROUP BY GROUPING SETS (name, ()) \
-        ORDER BY 2 DESC \
-), \
-summary_table AS ( \
-    SELECT array_agg(count) \
-        FROM summary \
-        WHERE name IS NULL \
-) \
-SELECT array_agg[1] AS nb_devices, array_agg[2] AS nb_unknow_devices \
-    FROM summary_table";
-
-    return pg.query({
-        'q': sql,
-        'db': 'network',
-    });
-}
-
 function IndexController($scope, mqtt, pg)
 {
-    $scope.$watch('weather', function (newValue, oldValue) {
-        if (typeof newValue.wind_all !== 'undefined') {
-            $scope.beaufort = Math.cbrt(
-                Math.pow(newValue.wind_all, 2) / 9
-            );
-        }
-    });
-
-    $scope.connected = false;
-
-    $scope.vmc = pg.query({
-        'q': 'SELECT * FROM vmc ORDER BY created DESC LIMIT 1',
-    });
-
-    $scope.weather = pg.query({
-        'q': 'SELECT * FROM weather ORDER BY created DESC LIMIT 1',
-    });
-
-    $scope.network = getNetworkInfo(pg);
-    setTimeout(function () {
-        $scope.network = getNetworkInfo(pg);
-    }, 3 * 60 * 1000);
-
     mqtt.connect({
         useSSL: true,
         onSuccess: function () {
@@ -90,9 +36,25 @@ function IndexController($scope, mqtt, pg)
                 $scope.weather = data;
             break;
         }
-
         $scope.$apply();
     };
+}
+IndexController.$inject = ['$scope', 'mqtt', 'pg'];
+
+function HeaderController($scope)
+{
+    $scope.scroll= function (anchor) {
+        $location.hash(anchor);
+        $anchorScroll();
+    };
+}
+HeaderController.$inject = ['$scope', 'mqtt', 'pg'];
+
+function VmcController($scope, mqtt, pg)
+{
+    $scope.vmc = pg.query({
+        'q': 'SELECT * FROM vmc ORDER BY created DESC LIMIT 1',
+    });
 
     $scope.vmc_update = function (state) {
         var message = new Paho.MQTT.Message(state);
@@ -100,10 +62,61 @@ function IndexController($scope, mqtt, pg)
 
         mqtt.send(message);
     };
-
-    $scope.scroll= function (anchor) {
-        $location.hash(anchor);
-        $anchorScroll();
-    };
 }
-IndexController.$inject = ['$scope', 'mqtt', 'pg'];
+VmcController.$inject = ['$scope', 'mqtt', 'pg'];
+
+function WeatherController($scope, mqtt, pg)
+{
+    $scope.$watch('weather', function (newValue, oldValue) {
+        if (typeof newValue.wind_all !== 'undefined') {
+            $scope.beaufort = Math.cbrt(
+                Math.pow(newValue.wind_all, 2) / 9
+            );
+        }
+    });
+
+    $scope.weather = pg.query({
+        'q': 'SELECT * FROM weather ORDER BY created DESC LIMIT 1',
+    });
+}
+WeatherController.$inject = ['$scope', 'mqtt', 'pg'];
+
+function NetworkController($scope, mqtt, pg)
+{
+    $scope.network = getNetworkInfo(pg);
+    setTimeout(function () {
+        $scope.network = getNetworkInfo(pg);
+    }, 3 * 60 * 1000);
+}
+NetworkController.$inject = ['$scope', 'mqtt', 'pg'];
+
+function getNetworkInfo(pg)
+{
+    var sql = " \
+WITH last_minute AS ( \
+    SELECT date_trunc('minute', created) \
+        FROM connected_device \
+        ORDER BY 1 DESC \
+        LIMIT 1 \
+), \
+summary AS ( \
+    SELECT name, COUNT(1) \
+        FROM connected_device \
+        LEFT JOIN device USING(mac) \
+        WHERE created >= (SELECT * FROM last_minute) \
+        GROUP BY GROUPING SETS (name, ()) \
+        ORDER BY 2 DESC \
+), \
+summary_table AS ( \
+    SELECT array_agg(count) \
+        FROM summary \
+        WHERE name IS NULL \
+) \
+SELECT array_agg[1] AS nb_devices, array_agg[2] AS nb_unknow_devices \
+    FROM summary_table";
+
+    return pg.query({
+        'q': sql,
+        'db': 'network',
+    });
+}
