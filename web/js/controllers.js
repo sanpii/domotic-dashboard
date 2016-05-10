@@ -41,14 +41,14 @@ function IndexController($scope, mqtt, pg)
 }
 IndexController.$inject = ['$scope', 'mqtt', 'pg'];
 
-function HeaderController($scope)
+function HeaderController($scope, $location, $anchorScroll)
 {
     $scope.scroll= function (anchor) {
         $location.hash(anchor);
         $anchorScroll();
     };
 }
-HeaderController.$inject = ['$scope', 'mqtt', 'pg'];
+HeaderController.$inject = ['$scope', '$location', '$anchorScroll'];
 
 function VmcController($scope, mqtt, pg)
 {
