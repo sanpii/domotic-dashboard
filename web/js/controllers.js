@@ -33,6 +33,12 @@ function IndexController($scope, mqtt, pg)
                 $scope.vmc = data;
             break;
             case 'domotic/weather':
+                data.beaufort = Math.round(
+                    Math.cbrt(
+                        Math.pow(data.wind_all, 2) / 9
+                    )
+                );
+
                 $scope.weather = data;
             break;
         }
@@ -67,16 +73,8 @@ VmcController.$inject = ['$scope', 'mqtt', 'pg'];
 
 function WeatherController($scope, mqtt, pg)
 {
-    $scope.$watch('weather', function (newValue, oldValue) {
-        if (typeof newValue.wind_all !== 'undefined') {
-            $scope.beaufort = Math.cbrt(
-                Math.pow(newValue.wind_all, 2) / 9
-            );
-        }
-    });
-
     $scope.weather = pg.query({
-        'q': 'SELECT * FROM weather ORDER BY created DESC LIMIT 1',
+        'q': 'SELECT *, round(cbrt(pow(wind_all, 2) / 9)) AS beaufort FROM weather ORDER BY created DESC LIMIT 1',
     });
 }
 WeatherController.$inject = ['$scope', 'mqtt', 'pg'];
