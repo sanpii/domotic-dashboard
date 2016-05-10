@@ -1,5 +1,36 @@
 'use strict';
 
+function getNetworkInfo(pg)
+{
+    var sql = " \
+WITH last_minute AS ( \
+    SELECT date_trunc('minute', created) \
+        FROM connected_device \
+        ORDER BY 1 DESC \
+        LIMIT 1 \
+), \
+summary AS ( \
+    SELECT name, COUNT(1) \
+        FROM connected_device \
+        LEFT JOIN device USING(mac) \
+        WHERE created >= (SELECT * FROM last_minute) \
+        GROUP BY GROUPING SETS (name, ()) \
+        ORDER BY 2 DESC \
+), \
+summary_table AS ( \
+    SELECT array_agg(count) \
+        FROM summary \
+        WHERE name IS NULL \
+) \
+SELECT array_agg[1] AS nb_devices, array_agg[2] AS nb_unknow_devices \
+    FROM summary_table";
+
+    return pg.query({
+        'q': sql,
+        'db': 'network',
+    });
+}
+
 function IndexController($scope, mqtt, pg)
 {
     $scope.$watch('weather', function (newValue, oldValue) {
@@ -10,13 +41,20 @@ function IndexController($scope, mqtt, pg)
         }
     });
 
+    $scope.connected = false;
+
     $scope.vmc = pg.query({
         'q': 'SELECT * FROM vmc ORDER BY created DESC LIMIT 1',
     });
+
     $scope.weather = pg.query({
         'q': 'SELECT * FROM weather ORDER BY created DESC LIMIT 1',
     });
-    $scope.connected = false;
+
+    $scope.network = getNetworkInfo(pg);
+    setTimeout(function () {
+        $scope.network = getNetworkInfo(pg);
+    }, 3 * 60 * 1000);
 
     mqtt.connect({
         useSSL: true,

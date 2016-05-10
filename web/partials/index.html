@@ -5,6 +5,7 @@
         </a>
         <a ng-click="scroll('vmc')" class="btn btn-secondary">VMC</a>
         <a ng-click="scroll('weather')" class="btn btn-secondary">Météo</a>
+        <a ng-click="scroll('network')" class="btn btn-secondary">Réseau</a>
     </div>
 </div>
 
@@ -66,5 +67,14 @@
         <div class="col-xs-6">
             <i class="wi wi-wind-beaufort-{{ beaufort }}"></i>
         </div>
+    </div>
+</div>
+
+<h2 name="network"><i class="wi wi-cloudy"></i> Réseau</h2>
+
+<div class="col-sm-6">
+    <div class="card card-block">
+        <span class="wi">{{ network.nb_devices ? network.nb_devices : 0 }}</span> périphérique<span ng-if="network.nb_devices >= 2">s</span>
+        <span ng-class="{'text-danger': network.nb_unknow_devices > 0 }" class="wi">{{ network.nb_unknow_devices ? network.nb_unknow_devices : 0 }}</span> inconnu<span ng-if="network.nb_unknow_devices >= 2">s</span>
     </div>
 </div>
