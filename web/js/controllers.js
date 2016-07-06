@@ -1,9 +1,11 @@
 'use strict';
 
-function IndexController($scope, mqtt, pg)
+function IndexController($scope, mqtt, MQTT_USER, MQTT_PASSWORD)
 {
     mqtt.connect({
         useSSL: true,
+        userName: MQTT_USER,
+        password: MQTT_PASSWORD,
         onSuccess: function () {
             $scope.connected = true;
             $scope.$apply();
@@ -45,7 +47,7 @@ function IndexController($scope, mqtt, pg)
         $scope.$apply();
     };
 }
-IndexController.$inject = ['$scope', 'mqtt', 'pg'];
+IndexController.$inject = ['$scope', 'mqtt', 'MQTT_USER', 'MQTT_PASSWORD'];
 
 function HeaderController($scope, $location, $anchorScroll)
 {
