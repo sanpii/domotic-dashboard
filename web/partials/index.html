@@ -5,10 +5,12 @@
         </a>
         <a ng-click="scroll('vmc')" class="btn btn-secondary">VMC</a>
         <a ng-click="scroll('weather')" class="btn btn-secondary">Météo</a>
+        <a ng-click="scroll('sensors')" class="btn btn-secondary">Capteurs</a>
         <a ng-click="scroll('network')" class="btn btn-secondary">Réseau</a>
     </div>
 </div>
 
 <div id="vmc" ng-controller="vmc" ng-include="'/partials/vmc.html'"></div>
 <div id="weather" ng-controller="weather" ng-include="'/partials/weather.html'"></div>
+<div id="sensors" ng-controller="sensors" ng-include="'/partials/sensors.html'"></div>
 <div id="network" ng-controller="network" ng-include="'/partials/network.html'"></div>

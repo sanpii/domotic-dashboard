@@ -6,6 +6,7 @@ app.controller('index', IndexController)
     .controller('header', HeaderController)
     .controller('vmc', VmcController)
     .controller('weather', WeatherController)
+    .controller('sensors', SensorsController)
     .controller('network', NetworkController);
 
 app.config(['$routeProvider', function($routeProvider) {

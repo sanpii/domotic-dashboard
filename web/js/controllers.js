@@ -81,6 +81,32 @@ function WeatherController($scope, mqtt, pg)
 }
 WeatherController.$inject = ['$scope', 'mqtt', 'pg'];
 
+function SensorsController($scope, mqtt, pg)
+{
+    $scope.sensors = {};
+
+    var sql = " \
+ WITH temperatures AS ( \
+    SELECT *, \
+    ROW_NUMBER() OVER(PARTITION BY room_id ORDER BY created DESC) \
+    FROM temperature \
+), \
+humidities AS ( \
+    SELECT *, \
+    ROW_NUMBER() OVER(PARTITION BY room_id ORDER BY created DESC) \
+    FROM humidity \
+) \
+SELECT label, temperature, humidity \
+    FROM room \
+    JOIN temperatures USING(room_id) \
+    JOIN humidities USING(room_id) \
+    WHERE temperatures.row_number = 1 \
+        AND humidities.row_number = 1";
+
+    $scope.sensors = pg.query({'q': sql});
+}
+SensorsController.$inject = ['$scope', 'mqtt', 'pg'];
+
 function NetworkController($scope, mqtt, pg)
 {
     $scope.network = getNetworkInfo(pg);

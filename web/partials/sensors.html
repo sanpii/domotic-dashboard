@@ -1,0 +1,35 @@
+<h2><i class="wi wi-barometer"></i> Capteurs</h2>
+
+<div class="col-sm-6">
+    <div class="card card-block">
+        <div class="col-xs-4">
+            <i class="wi wi-thermometer"></i>
+        </div>
+
+        <div class="col-xs-8">
+            <table class="table table-inverse table-sm">
+                <tr ng-repeat="room in sensors">
+                    <td>{{ room.label }}</td>
+                    <td>{{ room.temperature }}°C</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-6">
+    <div class="card card-block">
+        <div class="col-xs-4">
+            <i class="wi wi-humidity"></i>
+        </div>
+
+        <div class="col-xs-8">
+            <table class="table table-inverse table-sm">
+                <tr ng-repeat="room in sensors">
+                    <td>{{ room.label }}</td>
+                    <td>{{ room.humidity }} %</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
