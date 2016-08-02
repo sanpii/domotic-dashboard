@@ -26,23 +26,20 @@ app.component('graph', {
 });
 
 app.directive('highlighter', ['$timeout', function($timeout) {
-  return {
-    restrict: 'A',
-    scope: {
-      model: '=highlighter'
-    },
-    link: function(scope, element) {
-      scope.$watch('model', function (nv, ov) {
-        if (nv !== ov) {
-          element.addClass('text-success');
-
-          $timeout(function () {
-            element.removeClass('text-success');
-          }, 5000);
+    return {
+        restrict: 'A',
+        scope: {
+            model: '=highlighter'
+        },
+        link: function(scope, element) {
+            scope.$watch('model', function (nv, ov) {
+                element.addClass('highlight');
+                $timeout(function () {
+                    element.removeClass('highlight');
+                }, 1000);
+            });
         }
-      });
-    }
-  };
+    };
 }]);
 
 app.run();

@@ -46,7 +46,6 @@ h2 {
 }
 
 .card-block {
-    border-color: @light-gray;
     background-color: transparent;
     height: 150px;
 
@@ -60,6 +59,20 @@ h2 {
             font-size: 6rem;
         }
     }
+}
+
+.table-inverse td, .card-block {
+    border-color: @red;
+    transition: border-color 90s cubic-bezier(.7, 0, 1, 0);
+
+    &.highlight {
+        border-color: @light-gray;
+
+        transition: border-color 0s;
+    }
+}
+
+#vmc .table-inverse td, #vmc .card-block {
 }
 
 .btn {
@@ -92,4 +105,33 @@ graph#vmc {
     &.forced {
         fill: @red;
     }
+}
+
+.highlight(@duration) {
+    .table-inverse td, .card-block {
+        border-color: @red;
+        transition: border-color @duration cubic-bezier(.7, 0, 1, 0);
+
+        &.highlight {
+            border-color: @light-gray;
+
+            transition: border-color 0s;
+        }
+    }
+}
+
+#vmc {
+    .highlight(129600s);
+}
+
+#weather {
+    .highlight(90s);
+}
+
+#sensors {
+    .highlight(90s);
+}
+
+#network {
+    .highlight(450s);
 }

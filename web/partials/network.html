@@ -1,7 +1,7 @@
-<h2 highlighter="network"><i class="wi wi-cloudy"></i> Réseau</h2>
+<h2><i class="wi wi-cloudy"></i> Réseau</h2>
 
 <div class="col-sm-6">
-    <div class="card card-block">
+    <div highlighter="network" class="card card-block">
         <span class="wi">{{ network.nb_devices ? network.nb_devices : 0 }}</span> périphérique<span ng-if="network.nb_devices >= 2">s</span>
         <span ng-class="{'text-danger': network.nb_unknow_devices > 0 }" class="wi">{{ network.nb_unknow_devices ? network.nb_unknow_devices : 0 }}</span> inconnu<span ng-if="network.nb_unknow_devices >= 2">s</span>
     </div>

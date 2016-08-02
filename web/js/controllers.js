@@ -66,6 +66,11 @@ function WeatherController($scope, pg)
 {
     $scope.$on('domotic/weather', function (event, data) {
         $scope.weather = data;
+
+        $scope.$broadcast('domotic/temperature', {room_id: 2, temperature: data.temperature_indoor});
+        $scope.$broadcast('domotic/temperature', {room_id: 3, temperature: data.temperature_outdoor});
+        $scope.$broadcast('domotic/humidity', {room_id: 2, humidity: data.humidity_indoor});
+        $scope.$broadcast('domotic/humidity', {room_id: 3, humidity: data.humidity_outdoor});
     });
 
     $scope.weather = pg.query({

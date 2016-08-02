@@ -1,7 +1,7 @@
-<h2 highlighter="weather"><i class="wi wi-umbrella"></i> Météo</h2>
+<h2><i class="wi wi-umbrella"></i> Météo</h2>
 
 <div class="col-sm-6">
-    <div class="card card-block">
+    <div highlighter="weather" class="card card-block">
         <div class="col-xs-6">
             {{ weather.temperature_outdoor }}°C
             <i class="wi wi-thermometer"></i>
@@ -14,7 +14,7 @@
 </div>
 
 <div class="col-sm-6">
-    <div class="card card-block">
+    <div highlighter="weather" class="card card-block">
         <div class="col-xs-6">
             <i ng-if="weather.forecast == 'Rainy'" class="wi wi-day-rain"></i>
             <i ng-if="weather.forecast == 'Sunny'" class="wi wi-day-sunny"></i>
@@ -29,7 +29,7 @@
 </div>
 
 <div class="col-sm-6">
-    <div class="card card-block">
+    <div highlighter="weather" class="card card-block">
         <div class="col-xs-6">
             <i class="wi wi-wind wi-towards-{{ weather.directions.toLowerCase() }}"></i>
         </div>
