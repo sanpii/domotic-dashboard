@@ -10,8 +10,7 @@ function IndexController($scope, mqtt, MQTT_USER, MQTT_PASSWORD)
             $scope.connected = true;
             $scope.$apply();
 
-            mqtt.subscribe('domotic/vmc');
-            mqtt.subscribe('domotic/weather');
+            mqtt.subscribe('#');
         },
         onFailure: function (message) {
             console.log('Connection failed: ' + message.errorMessage);
@@ -30,21 +29,7 @@ function IndexController($scope, mqtt, MQTT_USER, MQTT_PASSWORD)
     mqtt.onMessageArrived = function (message) {
         var data = JSON.parse(message.payloadString);
 
-        switch (message.destinationName) {
-            case 'domotic/vmc':
-                $scope.vmc = data;
-            break;
-            case 'domotic/weather':
-                data.beaufort = Math.round(
-                    Math.cbrt(
-                        Math.pow(data.wind_all, 2) / 9
-                    )
-                );
-
-                $scope.weather = data;
-            break;
-        }
-        $scope.$apply();
+        $scope.$broadcast(message.destinationName, data);
     };
 }
 IndexController.$inject = ['$scope', 'mqtt', 'MQTT_USER', 'MQTT_PASSWORD'];
@@ -60,6 +45,10 @@ HeaderController.$inject = ['$scope', '$location', '$anchorScroll'];
 
 function VmcController($scope, mqtt, pg)
 {
+    $scope.$on('domotic/vmc', function (event, data) {
+        $scope.vmc = data;
+    });
+
     $scope.vmc = pg.query({
         'q': 'SELECT * FROM vmc ORDER BY created DESC LIMIT 1',
     });
@@ -73,17 +62,41 @@ function VmcController($scope, mqtt, pg)
 }
 VmcController.$inject = ['$scope', 'mqtt', 'pg'];
 
-function WeatherController($scope, mqtt, pg)
+function WeatherController($scope, pg)
 {
+    $scope.$on('domotic/weather', function (event, data) {
+        $scope.weather = data;
+    });
+
     $scope.weather = pg.query({
         'q': 'SELECT *, round(cbrt(pow(wind_all, 2) / 9)) AS beaufort FROM weather ORDER BY created DESC LIMIT 1',
     });
 }
-WeatherController.$inject = ['$scope', 'mqtt', 'pg'];
+WeatherController.$inject = ['$scope', 'pg'];
 
-function SensorsController($scope, mqtt, pg)
+function SensorsController($scope, pg)
 {
-    $scope.sensors = {};
+    $scope.$on('domotic/temperature', function (event, data) {
+        Object.keys($scope.sensors).forEach(function (key) {
+            if (data.room_id == $scope.sensors[key].room_id) {
+                $scope.sensors[key].temperature = data.temperature;
+                return;
+            }
+        });
+
+        $scope.$apply();
+    });
+
+    $scope.$on('domotic/humidity', function (event, data) {
+        Object.keys($scope.sensors).forEach(function (key) {
+            if (data.room_id == $scope.sensors[key].room_id) {
+                $scope.sensors[key].humidity = data.humidity;
+                return;
+            }
+        });
+
+        $scope.$apply();
+    });
 
     var sql = " \
  WITH temperatures AS ( \
@@ -96,7 +109,7 @@ humidities AS ( \
     ROW_NUMBER() OVER(PARTITION BY room_id ORDER BY created DESC) \
     FROM humidity \
 ) \
-SELECT label, temperature, humidity \
+SELECT room_id, label, temperature, humidity \
     FROM room \
     JOIN temperatures USING(room_id) \
     JOIN humidities USING(room_id) \
@@ -105,18 +118,9 @@ SELECT label, temperature, humidity \
 
     $scope.sensors = pg.query({'q': sql});
 }
-SensorsController.$inject = ['$scope', 'mqtt', 'pg'];
+SensorsController.$inject = ['$scope', 'pg'];
 
-function NetworkController($scope, mqtt, pg)
-{
-    $scope.network = getNetworkInfo(pg);
-    setTimeout(function () {
-        $scope.network = getNetworkInfo(pg);
-    }, 3 * 60 * 1000);
-}
-NetworkController.$inject = ['$scope', 'mqtt', 'pg'];
-
-function getNetworkInfo(pg)
+function NetworkController($scope, pg)
 {
     var sql = " \
 WITH last_minute AS ( \
@@ -141,8 +145,13 @@ summary_table AS ( \
 SELECT array_agg[1] AS nb_devices, array_agg[2] AS nb_unknow_devices \
     FROM summary_table";
 
-    return pg.query({
-        'q': sql,
-        'db': 'network',
+    $scope.$on('domotic/network', function (event) {
+        $scope.network = pg.query({
+            'q': sql,
+            'db': 'network',
+        });
     });
+
+    $scope.$broadcast('domotic/network');
 }
+NetworkController.$inject = ['$scope', 'pg'];
