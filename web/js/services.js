@@ -13,11 +13,19 @@ angular.module('dashboardServices', ['ngResource', 'config'])
                     var results = {};
                     var json = JSON.parse(data);
 
-                    for (var i = 0; i < json.results[0].series[0].columns.length; i++) {
-                        var name = json.results[0].series[0].columns[i];
-                        var value = json.results[0].series[0].values[0][i];
+                    for (var i = 0; i < json.results[0].series[0].values.length; i++) {
+                        results[i] = {};
 
-                        results[name] = value;
+                        for (var j = 0; j < json.results[0].series[0].columns.length; j++) {
+                            var name = json.results[0].series[0].columns[j];
+                            var value = json.results[0].series[0].values[i][j];
+
+                            results[i][name] = value;
+                        }
+                    }
+
+                    if (Object.keys(results).length == 1) {
+                        results = results[0];
                     }
 
                     return results;
