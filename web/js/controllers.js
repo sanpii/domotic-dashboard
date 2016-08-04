@@ -74,7 +74,7 @@ function WeatherController($scope, pg)
     });
 
     $scope.weather = pg.query({
-        'q': 'SELECT *, round(cbrt(pow(wind_all, 2) / 9)) AS beaufort FROM weather ORDER BY created DESC LIMIT 1',
+        'q': 'SELECT *, round(cbrt(pow(wind_speed, 2) / 9)) AS beaufort FROM weather ORDER BY created DESC LIMIT 1',
     });
 }
 WeatherController.$inject = ['$scope', 'pg'];
