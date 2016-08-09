@@ -1,0 +1,8 @@
+<h2><i class="wi wi-lightning"></i> Électricité</h2>
+
+<div class="col-sm-6">
+    <div class="highlight card card-block">
+        <graph name="electricity" min="0" max="scale.max" current="teleinfo.papp"ng-class="{'hc': teleinfo.optarif == 'HC..'}"></graph>
+        {{ teleinfo.papp }} Watts
+    </div>
+</div>

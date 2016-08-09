@@ -3,6 +3,7 @@
         <a class="btn btn-secondary">
             <i ng-click="connect()" ng-class="{'wi-cloud-up': connected, 'wi-cloud-down': !connected}" class="wi"></i>
         </a>
+        <a ng-click="scroll('electricity')" class="btn btn-secondary">Électricité</a>
         <a ng-click="scroll('vmc')" class="btn btn-secondary">VMC</a>
         <a ng-click="scroll('weather')" class="btn btn-secondary">Météo</a>
         <a ng-click="scroll('sensors')" class="btn btn-secondary">Capteurs</a>
@@ -10,6 +11,7 @@
     </div>
 </div>
 
+<div id="electricity" ng-controller="electricity" ng-include="'/partials/electricity.html'"></div>
 <div id="vmc" ng-controller="vmc" ng-include="'/partials/vmc.html'"></div>
 <div id="weather" ng-controller="weather" ng-include="'/partials/weather.html'"></div>
 <div id="sensors" ng-controller="sensors" ng-include="'/partials/sensors.html'"></div>

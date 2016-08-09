@@ -43,6 +43,22 @@ function HeaderController($scope, $location, $anchorScroll)
 }
 HeaderController.$inject = ['$scope', '$location', '$anchorScroll'];
 
+function ElectricityController($scope, mqtt, pg)
+{
+    $scope.$on('domotic/teleinfo', function (event, data) {
+        $scope.teleinfo = data;
+    });
+
+    $scope.teleinfo = pg.query({
+        'q': 'SELECT * FROM teleinfo ORDER BY created DESC LIMIT 1',
+    });
+
+    $scope.scale = pg.query({
+        'q': 'SELECT max(papp) FROM teleinfo',
+    });
+}
+VmcController.$inject = ['$scope', 'mqtt', 'pg'];
+
 function VmcController($scope, mqtt, pg)
 {
     $scope.$on('domotic/vmc', function (event, data) {

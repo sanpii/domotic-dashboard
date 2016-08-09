@@ -4,6 +4,7 @@ var app = angular.module('dashboard', ['ngRoute', 'config', 'dashboardServices']
 
 app.controller('index', IndexController)
     .controller('header', HeaderController)
+    .controller('electricity', ElectricityController)
     .controller('vmc', VmcController)
     .controller('weather', WeatherController)
     .controller('sensors', SensorsController)

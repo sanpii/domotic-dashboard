@@ -93,6 +93,18 @@ graph {
         fill: url(#vmc-degrade);
     }
 
+    &.forced {
+        fill: @red;
+    }
+
+    #electricity {
+        fill: url(#electricity-degrade);
+    }
+
+    &.hc {
+        stroke: @red;
+    }
+
     stop {
         stop-opacity: 1;
 
@@ -103,10 +115,6 @@ graph {
         &.second {
             stop-color: @light-gray;
         }
-    }
-
-    &.forced {
-        fill: @red;
     }
 }
 
@@ -121,6 +129,10 @@ graph {
             transition: border-color 0s;
         }
     }
+}
+
+#electricity {
+    .highlight(90s);
 }
 
 #vmc {
