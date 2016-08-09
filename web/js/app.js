@@ -19,9 +19,10 @@ app.config(['$routeProvider', function($routeProvider) {
 app.component('graph', {
     templateUrl: '/partials/components/graph.html',
     bindings: {
+        name: '@',
         min: '<',
         max: '<',
-        current: '<'
+        current: '<',
     }
 });
 

@@ -1,6 +1,6 @@
-<svg width="200" height="100">
+<svg width="200" height="100" id="{{ $ctrl.name }}">
     <defs>
-        <linearGradient id="degrade" x1="0" y1="0" spreadMethod="pad">
+        <linearGradient id="{{ $ctrl.name }}-degrade" x1="0" y1="0" spreadMethod="pad">
             <stop offset="0%" class="first"/>
             <stop offset="{{ ($ctrl.current - $ctrl.min) / $ctrl.max * 100 }}%" class="first"/>
             <stop offset="{{ ($ctrl.current - $ctrl.min) / $ctrl.max * 100 }}%" class="second"/>

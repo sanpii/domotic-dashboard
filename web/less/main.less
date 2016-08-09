@@ -86,9 +86,12 @@ h2 {
     background-color: transparent;
 }
 
-graph#vmc {
+graph {
     stroke: @blue;
-    fill: url(#degrade);
+
+    #vmc {
+        fill: url(#vmc-degrade);
+    }
 
     stop {
         stop-opacity: 1;
